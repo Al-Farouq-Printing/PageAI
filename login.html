@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسجيل الدخول — PageAI</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============ PageAI by Hasnex — shared styles ============ */
+:root{
+  --bg:#0A0A0A;
+  --bg-elev:#141414;
+  --bg-card:#191919;
+  --line:#2B2B2B;
+  --ink:#F4F4F4;
+  --ink-dim:#A3A3A3;
+  --gold:#D9A544;
+  --gold-soft:rgba(217,165,68,.12);
+  --silver:#C9CBCE;
+  --danger:#FF6B6B;
+  --ok:#4ADE80;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:'IBM Plex Sans Arabic','Segoe UI',sans-serif;
+  line-height:1.7;
+}
+[lang="en"] body, body.lang-en{ font-family:'Poppins','Segoe UI',sans-serif; }
+h1,h2,h3,.brand{ font-family:'Cairo',sans-serif; font-weight:900; letter-spacing:-0.01em; }
+a{color:inherit; text-decoration:none;}
+img{max-width:100%; display:block;}
+.wrap{max-width:1180px; margin:0 auto; padding:0 24px;}
+ul{list-style:none;}
+
+/* focus */
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible{
+  outline:2px solid var(--gold); outline-offset:2px;
+}
+
+/* ---------- NAV ---------- */
+header.site{
+  position:sticky; top:0; z-index:50;
+  background:rgba(10,10,10,.88); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+nav.site{ display:flex; align-items:center; justify-content:space-between; padding:16px 0; }
+.brand{ display:flex; align-items:center; gap:10px; font-size:1.25rem; }
+.brand .mark{ width:34px; height:34px; border-radius:8px; background:linear-gradient(135deg,var(--gold),#B9812A); box-shadow:0 0 14px rgba(217,165,68,.4); display:flex; align-items:center; justify-content:center; color:#111; font-weight:900; font-size:.95rem; }
+.brand small{ display:block; font-family:'IBM Plex Sans Arabic',sans-serif; font-weight:400; font-size:.68rem; color:var(--ink-dim); }
+
+.navlinks{ display:flex; gap:28px; font-size:.95rem; color:var(--ink-dim); }
+.navlinks a:hover, .navlinks a.active{ color:var(--gold); }
+.nav-right{ display:flex; align-items:center; gap:14px; }
+.lang-toggle{
+  border:1px solid var(--line); background:transparent; color:var(--ink-dim);
+  padding:7px 14px; border-radius:100px; font-size:.82rem; cursor:pointer;
+}
+.lang-toggle:hover{ border-color:var(--gold); color:var(--gold); }
+.nav-cta{ background:linear-gradient(135deg,var(--gold),#B9812A); color:#141414; font-weight:700; padding:9px 20px; border-radius:8px; font-size:.9rem; }
+.navlinks-mobile{ display:none; }
+
+@media (max-width:900px){
+  .navlinks{ display:none; }
+}
+
+/* ---------- BUTTONS ---------- */
+.btn-primary{
+  background:linear-gradient(135deg,var(--gold),#B9812A); color:#141414; font-weight:700;
+  padding:14px 26px; border-radius:10px; font-size:1rem; border:none; cursor:pointer;
+  transition:transform .15s ease, box-shadow .15s ease; display:inline-block;
+}
+.btn-primary:hover{ transform:translateY(-2px); box-shadow:0 10px 28px rgba(217,165,68,.28); }
+.btn-primary:disabled{ opacity:.5; cursor:not-allowed; transform:none; box-shadow:none; }
+.btn-ghost{
+  border:1px solid var(--line); color:var(--ink); padding:13px 26px; border-radius:10px;
+  font-size:1rem; transition:border-color .15s ease, background .15s ease; display:inline-block; background:transparent; cursor:pointer;
+}
+.btn-ghost:hover{ border-color:var(--gold); background:var(--gold-soft); }
+.btn-outline-sm{ border:1px solid var(--line); background:transparent; color:var(--ink); padding:9px 16px; border-radius:8px; font-size:.85rem; cursor:pointer; }
+.btn-outline-sm:hover{ border-color:var(--gold); }
+
+/* ---------- HERO ---------- */
+.hero{ padding:90px 0 70px; position:relative; }
+.hero::before{
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(600px 300px at 85% -10%, rgba(217,165,68,.16), transparent 60%),
+             radial-gradient(500px 260px at 8% 0%, rgba(201,203,206,.08), transparent 60%);
+  pointer-events:none;
+}
+.eyebrow{
+  display:inline-flex; align-items:center; gap:8px; font-size:.82rem; color:var(--gold);
+  border:1px solid rgba(217,165,68,.35); background:var(--gold-soft); padding:6px 14px; border-radius:100px; margin-bottom:22px;
+}
+.pulse{ width:6px; height:6px; border-radius:50%; background:var(--gold); animation:pulse 1.8s ease-in-out infinite; }
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.hero h1{ font-size:clamp(2.1rem,4.2vw,3.4rem); line-height:1.18; margin-bottom:22px; position:relative; }
+.hero h1 .accent{ color:var(--gold); }
+.hero p.lead{ color:var(--ink-dim); font-size:1.1rem; max-width:560px; margin-bottom:34px; position:relative; }
+.hero-actions{ display:flex; gap:14px; flex-wrap:wrap; position:relative; }
+
+/* ---------- SECTIONS ---------- */
+section{ padding:80px 0; }
+.sec-head{ max-width:680px; margin:0 auto 52px; text-align:center; }
+.sec-head.left{ text-align:right; margin:0 0 44px; }
+.sec-head .tag{ color:var(--gold); font-family:monospace; font-size:.8rem; display:block; margin-bottom:10px; }
+.sec-head h2{ font-size:clamp(1.6rem,3vw,2.3rem); margin-bottom:14px; }
+.sec-head p{ color:var(--ink-dim); font-size:1.03rem; }
+
+.grid-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+.grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+@media (max-width:900px){ .grid-3,.grid-2{ grid-template-columns:1fr; } }
+
+.card{ background:var(--bg-card); border:1px solid var(--line); border-radius:14px; padding:28px; }
+.card .icon{
+  width:42px; height:42px; border-radius:10px; margin-bottom:18px; display:flex; align-items:center; justify-content:center;
+  background:var(--gold-soft); border:1px solid rgba(217,165,68,.3); color:var(--gold); font-size:1.15rem;
+}
+.card h3{ font-size:1.1rem; margin-bottom:8px; }
+.card p{ color:var(--ink-dim); font-size:.94rem; }
+
+/* ---------- PRICING ---------- */
+.price-card{
+  background:var(--bg-card); border:1px solid var(--line); border-radius:16px; padding:32px; display:flex; flex-direction:column; position:relative;
+}
+.price-card.featured{ border-color:var(--gold); box-shadow:0 0 0 1px var(--gold), 0 20px 50px rgba(217,165,68,.12); }
+.price-card.featured::before{
+  content:attr(data-badge); position:absolute; top:-13px; inset-inline-start:24px; background:var(--gold); color:#141414;
+  font-size:.72rem; font-weight:700; padding:4px 12px; border-radius:100px;
+}
+.price-card h3{ font-size:1.2rem; margin-bottom:6px; }
+.price-card .price{ font-family:'Cairo'; font-size:2.2rem; font-weight:900; margin:14px 0 4px; }
+.price-card .price small{ font-size:.9rem; color:var(--ink-dim); font-weight:500; }
+.price-card .desc{ color:var(--ink-dim); font-size:.88rem; margin-bottom:20px; }
+.price-card ul{ margin-bottom:26px; flex:1; }
+.price-card li{ padding:9px 0; border-top:1px solid var(--line); font-size:.9rem; color:var(--ink-dim); display:flex; gap:9px; }
+.price-card li:first-child{ border-top:none; }
+.price-card li .ck{ color:var(--gold); flex-shrink:0; }
+
+/* ---------- FORMS ---------- */
+.form-card{ background:var(--bg-card); border:1px solid var(--line); border-radius:14px; padding:30px; max-width:520px; margin:0 auto; }
+label{ display:block; font-size:.88rem; color:var(--ink-dim); margin-bottom:7px; }
+input, textarea{
+  width:100%; background:#0E0E0E; border:1px solid var(--line); color:var(--ink); border-radius:8px;
+  padding:12px 14px; font-family:inherit; font-size:.95rem; margin-bottom:16px;
+}
+textarea{ min-height:110px; resize:vertical; }
+.status-msg{ font-size:.88rem; min-height:1.4em; margin-top:8px; }
+.status-msg.error{ color:var(--danger); }
+.status-msg.ok{ color:var(--ok); }
+
+/* ---------- AUTH ---------- */
+.oauth-btn{
+  width:100%; display:flex; align-items:center; justify-content:center; gap:10px; background:#fff; color:#222;
+  font-weight:600; padding:12px; border-radius:8px; border:none; cursor:pointer; margin-bottom:18px; font-size:.95rem;
+}
+.divider{ display:flex; align-items:center; gap:12px; color:var(--ink-dim); font-size:.82rem; margin:18px 0; }
+.divider::before,.divider::after{ content:''; flex:1; height:1px; background:var(--line); }
+
+/* ---------- DASHBOARD ---------- */
+.dash-grid{ display:grid; grid-template-columns:340px 1fr; gap:24px; align-items:start; }
+@media (max-width:960px){ .dash-grid{ grid-template-columns:1fr; } }
+.plan-badge{
+  display:inline-flex; align-items:center; gap:6px; background:var(--gold-soft); border:1px solid rgba(217,165,68,.3);
+  color:var(--gold); padding:5px 12px; border-radius:100px; font-size:.8rem; margin-bottom:16px;
+}
+.paywall{ border:1px dashed var(--gold); background:var(--gold-soft); border-radius:10px; padding:14px; font-size:.85rem; color:var(--ink-dim); margin-bottom:16px; }
+.paywall b{ color:var(--gold); }
+.mono-num{ font-family:monospace; direction:ltr; display:inline-block; color:var(--ink); background:#0E0E0E; padding:2px 8px; border-radius:5px; }
+.result-bar{ display:flex; justify-content:space-between; align-items:center; margin:14px 0 10px; flex-wrap:wrap; gap:10px; }
+iframe.preview{ width:100%; height:560px; border:1px solid var(--line); border-radius:10px; background:#fff; }
+.spinner{ display:inline-block; width:16px; height:16px; border:2px solid rgba(217,165,68,.3); border-top-color:var(--gold); border-radius:50%; animation:spin .7s linear infinite; vertical-align:middle; margin-inline-end:8px; }
+@keyframes spin{ to{ transform:rotate(360deg); } }
+
+/* ---------- FOOTER ---------- */
+footer.site{ border-top:1px solid var(--line); padding:40px 0; margin-top:40px; }
+.foot-row{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+.foot-links{ display:flex; gap:22px; color:var(--ink-dim); font-size:.9rem; flex-wrap:wrap; }
+.foot-links a:hover{ color:var(--gold); }
+.copy{ color:var(--ink-dim); font-size:.85rem; }
+
+/* reveal */
+.reveal{ opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease; }
+.reveal.in{ opacity:1; transform:translateY(0); }
+
+/* language visibility helper */
+[data-en]{ display:none; }
+html[lang="en"] [data-ar]{ display:none; }
+html[lang="en"] [data-en]{ display:inline; }
+html[lang="en"] .block-en{ display:block !important; }
+html[lang="ar"] .block-en{ display:none !important; }
+
+</style>
+</head>
+<body>
+
+<header class="site">
+  <nav class="site wrap">
+    <a href="index.html" class="brand"><span class="mark">PA</span><span><span data-ar>PageAI</span><span data-en>PageAI</span><small><span data-ar>بواسطة Hasnex</span><span data-en>by Hasnex</span></small></span></a>
+    <div class="navlinks">
+      <a href="index.html"><span data-ar>الرئيسية</span><span data-en>Home</span></a>
+      <a href="pricing.html"><span data-ar>الأسعار</span><span data-en>Pricing</span></a>
+      <a href="about.html"><span data-ar>من نحن</span><span data-en>About</span></a>
+      <a href="contact.html"><span data-ar>تواصل معنا</span><span data-en>Contact</span></a>
+    </div>
+    <div class="nav-right">
+      <button class="lang-toggle">EN</button>
+    </div>
+  </nav>
+</header>
+
+<section style="padding:70px 0;">
+  <div class="wrap" style="max-width:440px;">
+    <h1 style="text-align:center; font-size:1.6rem; margin-bottom:26px;"><span data-ar>سجّلي دخولك</span><span data-en>Sign in</span></h1>
+
+    <div class="form-card">
+      <button class="oauth-btn" id="googleBtn">
+        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.4 29.3 35 24 35c-6.1 0-11.3-4-13.1-9.5H2.6C5.9 34.9 14.2 41 24 41c12.7 0 23-10.3 23-23 0-1.5-.2-3-.4-4.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.1 18.9 12 24 12c3.1 0 5.9 1.1 8.1 3l6-6C34.3 5.1 29.4 3 24 3 15.8 3 8.7 7.7 6.3 14.7z"/><path fill="#4CAF50" d="M24 45c5.2 0 9.9-1.7 13.5-4.7l-6.2-5.3C29.2 36.7 26.7 37.5 24 37.5c-5.3 0-9.7-3.4-11.3-8.1l-6.5 5C8.6 40.2 15.7 45 24 45z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4 5.5l6.2 5.3C40.9 36 44 30.9 44 24c0-1.5-.2-3-.4-3.5z"/></svg>
+        <span data-ar>الدخول بحساب جوجل</span><span data-en>Continue with Google</span>
+      </button>
+
+      <div class="divider"><span data-ar>أو</span><span data-en>or</span></div>
+
+      <label for="email"><span data-ar>البريد الإلكتروني</span><span data-en>Email</span></label>
+      <input id="email" type="email">
+      <label for="password"><span data-ar>كلمة المرور</span><span data-en>Password</span></label>
+      <input id="password" type="password">
+
+      <button class="btn-primary" style="width:100%; margin-bottom:10px;" id="loginBtn"><span data-ar>دخول</span><span data-en>Sign in</span></button>
+      <button class="btn-ghost" style="width:100%;" id="signupBtn"><span data-ar>إنشاء حساب جديد</span><span data-en>Create new account</span></button>
+
+      <div class="status-msg" id="authStatus"></div>
+    </div>
+  </div>
+</section>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="firebase-init.js"></script>
+<script>
+// تبديل اللغة عربي/إنجليزي، وتأثير الظهور عند التمرير — مشترك بين كل الصفحات
+(function () {
+  function applyLang(lang) {
+    document.documentElement.setAttribute("lang", lang);
+    document.documentElement.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
+    localStorage.setItem("pageai_lang", lang);
+    document.querySelectorAll(".lang-toggle").forEach((btn) => {
+      btn.textContent = lang === "ar" ? "EN" : "AR";
+    });
+  }
+
+  const saved = localStorage.getItem("pageai_lang") || "ar";
+  applyLang(saved);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".lang-toggle").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const current = document.documentElement.getAttribute("lang");
+        applyLang(current === "ar" ? "en" : "ar");
+      });
+    });
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("in");
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+  });
+})();
+
+</script>
+<script>
+  const status = document.getElementById('authStatus');
+  const isEn = () => document.documentElement.lang === 'en';
+
+  function setStatus(msg, kind) {
+    status.className = 'status-msg' + (kind ? ' ' + kind : '');
+    status.textContent = msg;
+  }
+
+  async function afterLoginRedirect() {
+    setStatus(isEn() ? 'Signed in, redirecting…' : 'تم تسجيل الدخول، جاري التحويل…', 'ok');
+    try {
+      await registerUserProfile();
+    } catch (err) {
+      // لو حصل أي خطأ مؤقت في Firestore، منمنعش المستخدم من الدخول للوحة التحكم
+      console.warn('register-user failed', err);
+    }
+    window.location.href = 'dashboard.html';
+  }
+
+  document.getElementById('googleBtn').addEventListener('click', async () => {
+    try {
+      await signInWithGoogle(); // هيحصل تحويل (redirect) للصفحة، هيرجع تاني بعد اختيار الحساب
+    } catch (err) {
+      setStatus(isEn() ? 'Google sign-in failed.' : 'فشل الدخول بجوجل.', 'error');
+    }
+  });
+
+  // لما الصفحة ترجع بعد اختيار حساب جوجل، نكمل تسجيل الدخول تلقائيًا
+  (async () => {
+    const user = await checkRedirectResult();
+    if (user) { await afterLoginRedirect(); }
+  })();
+
+  document.getElementById('loginBtn').addEventListener('click', async () => {
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    if (!email || !password) return setStatus(isEn() ? 'Fill in email and password' : 'أدخلي البريد وكلمة المرور', 'error');
+    try {
+      await signInWithEmail(email, password);
+      await afterLoginRedirect();
+    } catch (err) {
+      setStatus(isEn() ? 'Incorrect email or password.' : 'البريد أو كلمة المرور غير صحيحة.', 'error');
+    }
+  });
+
+  document.getElementById('signupBtn').addEventListener('click', async () => {
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    if (!email || !password) return setStatus(isEn() ? 'Fill in email and password' : 'أدخلي البريد وكلمة المرور', 'error');
+    if (password.length < 6) return setStatus(isEn() ? 'Password must be at least 6 characters' : 'كلمة المرور 6 أحرف على الأقل', 'error');
+    try {
+      await signUpWithEmail(email, password);
+      await afterLoginRedirect();
+    } catch (err) {
+      setStatus(isEn() ? 'Could not create account (maybe already exists).' : 'تعذر إنشاء الحساب (ربما موجود بالفعل).', 'error');
+    }
+  });
+</script>
+</body>
+</html>
