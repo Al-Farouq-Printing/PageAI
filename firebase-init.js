@@ -4,12 +4,12 @@
 
 // 👇👇 غيّري القيم دي بالقيم من Firebase Console → Project settings → Your apps (سطور 6-13) 👇👇
 const firebaseConfig = {
-  apiKey: "ضعي-هنا-Firebase-apiKey",
-  authDomain: "ضعي-هنا-authDomain",
-  projectId: "ضعي-هنا-projectId",
-  storageBucket: "ضعي-هنا-storageBucket",
-  messagingSenderId: "ضعي-هنا-messagingSenderId",
-  appId: "ضعي-هنا-appId",
+  apiKey: "AIzaSyCqgkTyEsmh-KTW_2TmyR9wNvLlUvhMKZA",
+  authDomain: "pageai-c99f9.firebaseapp.com",
+  projectId: "pageai-c99f9",
+  storageBucket: "pageai-c99f9.firebasestorage.app",
+  messagingSenderId: "170017778677",
+  appId: "1:170017778677:web:5efdc50092ff32078a8ebc",
 };
 // 👆👆 خلصنا هنا 👆👆
 
@@ -38,16 +38,23 @@ async function notifyTelegram(text) {
 /* ---------- تسجيل الدخول ---------- */
 async function signInWithGoogle() {
   const provider = new firebase.auth.GoogleAuthProvider();
-  await auth.signInWithRedirect(provider);
+  provider.addScope('email');
+  provider.addScope('profile');
+  try {
+    const result = await auth.signInWithPopup(provider);
+    return result.user;
+  } catch (err) {
+    if (err.code === 'auth/popup-blocked' || err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') {
+      await auth.signInWithRedirect(provider); // الصفحة هتتحوّل وترجع تاني بعد اختيار الحساب
+      return null;
+    }
+    throw err; // أي خطأ تاني (زي auth/unauthorized-domain) لازم يظهر للمستخدمة بدل ما يتبلع
+  }
 }
 
 async function checkRedirectResult() {
-  try {
-    const result = await auth.getRedirectResult();
-    return result && result.user ? result.user : null;
-  } catch (err) {
-    return null;
-  }
+  const result = await auth.getRedirectResult(); // من غير try/catch عشان أي خطأ حقيقي يظهر بدل ما يتبلع
+  return result && result.user ? result.user : null;
 }
 
 async function signUpWithEmail(email, password) {
