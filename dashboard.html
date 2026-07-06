@@ -309,8 +309,22 @@ html[lang="ar"] .block-en{ display:none !important; }
   let currentUser = null;
   let currentUserData = null;
 
+  const params = new URLSearchParams(window.location.search);
+  const justLoggedIn = params.get('justLoggedIn') === '1';
+  let authChecked = false;
+
   auth.onAuthStateChanged(async (user) => {
+    if (!user && justLoggedIn && !authChecked) {
+      // ديها فرصة ثانية: أول تحميل بعد الدخول مباشرة أحيانًا فايربيز لسه بيسترجع الجلسة
+      authChecked = true;
+      setTimeout(() => {
+        if (!auth.currentUser) { window.location.href = "login.html"; }
+        else { currentUser = auth.currentUser; loadStatus(); }
+      }, 1500);
+      return;
+    }
     if (!user) { window.location.href = "login.html"; return; }
+    authChecked = true;
     currentUser = user;
     await loadStatus();
   });
@@ -484,3 +498,11 @@ html[lang="ar"] .block-en{ display:none !important; }
 </script>
 </body>
 </html>
+.email}\nUID: ${currentUser.uid}\nالمبلغ: ${price} جنيه\n\nبعد التأكد من التحويل فودافون كاش، فعّلي الاشتراك يدويًا من Firebase Console → Firestore → users → ${currentUser.uid} → غيّري plan إلى "${plan}" و subscriptionExpiry لتاريخ بعد 30 يوم.`
+      );
+      status.className = 'status-msg ok';
+      status.textContent = isEn()
+        ? 'Request sent. Your subscription activates after payment is manually confirmed.'
+        : 'تم إرسال الطلب. سيتم تفعيل اشتراكك يدويًا فور تأكيد الدفع.';
+    } catch {
+      status.className = 'status-msg erro
