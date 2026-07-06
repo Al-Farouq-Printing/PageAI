@@ -345,15 +345,3 @@ html[lang="ar"] .block-en{ display:none !important; }
 </script>
 </body>
 </html>
-t signInWithEmail(email, password);
-      await afterLoginRedirect();
-    } catch (err) {
-      setStatus((isEn() ? 'Sign-in failed: ' : 'فشل الدخول: ') + (err.code || err.message || err), 'error');
-    }
-  });
-
-  document.getElementById('signupBtn').addEventListener('click', async () => {
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-    if (!email || !password) return setStatus(isEn() ? 'Fill in email and password' : 'أدخلي البريد وكلمة المرور', 'error');
-    if (password.length < 6) return setStatus(isEn() ? 'Password must be at least 6 characters' : 'كلمة المرور 6
