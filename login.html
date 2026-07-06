@@ -295,21 +295,27 @@ html[lang="ar"] .block-en{ display:none !important; }
       // لو حصل أي خطأ مؤقت في Firestore، منمنعش المستخدم من الدخول للوحة التحكم
       console.warn('register-user failed', err);
     }
-    window.location.href = 'dashboard.html';
+    window.location.href = 'dashboard.html?justLoggedIn=1';
   }
 
   document.getElementById('googleBtn').addEventListener('click', async () => {
     try {
-      await signInWithGoogle(); // هيحصل تحويل (redirect) للصفحة، هيرجع تاني بعد اختيار الحساب
+      const user = await signInWithGoogle();
+      if (user) { await afterLoginRedirect(); } // نجح الـ popup فورًا
+      // لو رجع null معناها حصل redirect، الصفحة هتتحمل تاني وتكمل تحت
     } catch (err) {
-      setStatus(isEn() ? 'Google sign-in failed.' : 'فشل الدخول بجوجل.', 'error');
+      setStatus((isEn() ? 'Google sign-in failed: ' : 'فشل الدخول بجوجل: ') + (err.code || err.message || err), 'error');
     }
   });
 
-  // لما الصفحة ترجع بعد اختيار حساب جوجل، نكمل تسجيل الدخول تلقائيًا
+  // لما الصفحة ترجع بعد اختيار حساب جوجل (لو كان حصل redirect)، نكمل تسجيل الدخول تلقائيًا
   (async () => {
-    const user = await checkRedirectResult();
-    if (user) { await afterLoginRedirect(); }
+    try {
+      const user = await checkRedirectResult();
+      if (user) { await afterLoginRedirect(); }
+    } catch (err) {
+      setStatus((isEn() ? 'Google sign-in failed: ' : 'فشل الدخول بجوجل: ') + (err.code || err.message || err), 'error');
+    }
   })();
 
   document.getElementById('loginBtn').addEventListener('click', async () => {
@@ -320,7 +326,7 @@ html[lang="ar"] .block-en{ display:none !important; }
       await signInWithEmail(email, password);
       await afterLoginRedirect();
     } catch (err) {
-      setStatus(isEn() ? 'Incorrect email or password.' : 'البريد أو كلمة المرور غير صحيحة.', 'error');
+      setStatus((isEn() ? 'Sign-in failed: ' : 'فشل الدخول: ') + (err.code || err.message || err), 'error');
     }
   });
 
@@ -333,9 +339,21 @@ html[lang="ar"] .block-en{ display:none !important; }
       await signUpWithEmail(email, password);
       await afterLoginRedirect();
     } catch (err) {
-      setStatus(isEn() ? 'Could not create account (maybe already exists).' : 'تعذر إنشاء الحساب (ربما موجود بالفعل).', 'error');
+      setStatus((isEn() ? 'Account creation failed: ' : 'فشل إنشاء الحساب: ') + (err.code || err.message || err), 'error');
     }
   });
 </script>
 </body>
 </html>
+t signInWithEmail(email, password);
+      await afterLoginRedirect();
+    } catch (err) {
+      setStatus((isEn() ? 'Sign-in failed: ' : 'فشل الدخول: ') + (err.code || err.message || err), 'error');
+    }
+  });
+
+  document.getElementById('signupBtn').addEventListener('click', async () => {
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    if (!email || !password) return setStatus(isEn() ? 'Fill in email and password' : 'أدخلي البريد وكلمة المرور', 'error');
+    if (password.length < 6) return setStatus(isEn() ? 'Password must be at least 6 characters' : 'كلمة المرور 6
