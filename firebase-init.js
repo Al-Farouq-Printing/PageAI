@@ -20,6 +20,7 @@ const TELEGRAM_ADMIN_CHAT_ID = "6274518836";
 
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch((err) => console.warn('persistence setup failed', err));
 const db = firebase.firestore();
 
 /* ---------- تليجرام مباشرة من المتصفح ---------- */
